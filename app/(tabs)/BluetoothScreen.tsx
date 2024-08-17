@@ -1,139 +1,66 @@
-// app/BluetoothScreen.tsx
-import  { useEffect, useState } from 'react';
-import { View, Text, Button, StyleSheet, FlatList, Alert, PermissionsAndroid, Platform } from 'react-native';
-import BleManager from 'react-native-ble-manager';
+import  { useState } from 'react';
+import { View, Text, Button, StyleSheet, Dimensions } from 'react-native';
 
-const BluetoothScreen: React.FC = () => {
-  const [devices, setDevices] = useState<any[]>([]);
-  const [isScanning, setIsScanning] = useState(false);
+export default function BluetoothSearchScreen() {
+  const [bluetoothAddress, setBluetoothAddress] = useState('235:989:00:5887:45');
 
-  useEffect(() => {
-    const initializeBleManager = async () => {
-      try {
-        await BleManager.start({ showAlert: false });
-        requestPermissions();
-      } catch (error) {
-        console.error('Error initializing BleManager:', error);
-      }
-    };
-
-    initializeBleManager();
-
-    // Listener for discovered peripherals
-    const discoverListener = BleManager.addListener('BleManagerDiscoverPeripheral', handleDiscoverPeripheral);
-
-    return () => {
-      BleManager.stopScan();
-      discoverListener.remove(); // Remove the listener on unmount
-    };
-  }, []);
-
-  const requestPermissions = async () => {
-    if (Platform.OS === 'android') {
-      const granted = await PermissionsAndroid.requestMultiple([
-        PermissionsAndroid.PERMISSIONS.BLUETOOTH_SCAN,
-        PermissionsAndroid.PERMISSIONS.BLUETOOTH_CONNECT,
-        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-      ]);
-
-      if (
-        granted['android.permission.BLUETOOTH_SCAN'] !== PermissionsAndroid.RESULTS.GRANTED ||
-        granted['android.permission.BLUETOOTH_CONNECT'] !== PermissionsAndroid.RESULTS.GRANTED ||
-        granted['android.permission.ACCESS_FINE_LOCATION'] !== PermissionsAndroid.RESULTS.GRANTED
-      ) {
-        Alert.alert('BLE permissions denied');
-      }
-    }
+  const handleSearch = () => {
+    // Handle Bluetooth search logic here
   };
 
-  const handleScan = () => {
-    console.log('BleManager:', BleManager); // Check if BleManager is not null
-    if (!isScanning) {
-      BleManager.scan([], 5, true)
-        .then(() => {
-          setIsScanning(true);
-          console.log('Scanning...');
-        })
-        .catch(error => {
-          console.log('Error scanning:', error);
-        });
-    } else {
-      BleManager.stopScan()
-        .then(() => {
-          setIsScanning(false);
-          console.log('Scan stopped');
-        })
-        .catch(error => {
-          console.log('Error stopping scan:', error);
-        });
-    }
-  };
-
-  const handleConnect = (device: any) => {
-    BleManager.connect(device.id)
-      .then(() => {
-        console.log('Connected to', device.name);
-        Alert.alert('Connected', `Connected to ${device.name}`);
-      })
-      .catch(error => {
-        console.log('Connection error:', error);
-        Alert.alert('Connection Error', 'Could not connect to the device');
-      });
-  };
-
-  const handleDiscoverPeripheral = (peripheral: any) => {
-    setDevices(prevDevices => {
-      // Check if the device is already in the list
-      if (!prevDevices.find(d => d.id === peripheral.id)) {
-        return [...prevDevices, peripheral];
-      }
-      return prevDevices;
-    });
+  const handleConnect = () => {
+    // Handle Bluetooth connect logic here
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Bluetooth Devices</Text>
-      <Button title={isScanning ? 'Stop Scan' : 'Scan'} onPress={handleScan} />
-      <FlatList
-        data={devices}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <View style={styles.deviceContainer}>
-            <Text style={styles.deviceName}>{item.name || 'Unnamed Device'}</Text>
-            <Button title="Connect" onPress={() => handleConnect(item)} />
-          </View>
-        )}
-      />
+      <Text style={styles.title}>Bluetooth Device Search</Text>
+
+      <View style={styles.buttonContainer}>
+        <Button title="Search" onPress={handleSearch} color="#5B84F1" />
+      </View>
+
+      <View style={styles.addressContainer}>
+        <Text style={styles.addressText}>{bluetoothAddress}</Text>
+      </View>
+
+      <View style={styles.buttonContainer}>
+        <Button title="Connect" onPress={handleConnect} color="#5B84F1" />
+      </View>
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#34eb98', // Background color
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 16,
-    backgroundColor: '#f0f0f0',
   },
   title: {
-    fontSize: 24,
-    marginBottom: 16,
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 20,
   },
-  deviceContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+  buttonContainer: {
+    width: '60%',
+    marginVertical: 10,
+    backgroundColor: '#5B84F1',
+    borderRadius: 10,
+    overflow: 'hidden', // To make button corners rounded
+  },
+  addressContainer: {
+    backgroundColor: '#ffffff',
+    padding: 20,
+    marginVertical: 20,
+    borderRadius: 10,
+    justifyContent: 'center',
     alignItems: 'center',
-    padding: 10,
-    marginVertical: 5,
-    backgroundColor: '#fff',
-    borderRadius: 5,
-    width: '100%',
+    width: '80%',
   },
-  deviceName: {
+  addressText: {
     fontSize: 18,
+    fontWeight: 'bold',
   },
 });
-
-export default BluetoothScreen;

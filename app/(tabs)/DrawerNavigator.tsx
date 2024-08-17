@@ -1,17 +1,15 @@
-// app/DrawerNavigator.tsx
 import React from 'react';
-import { createDrawerNavigator } from '@react-navigation/drawer';
+import { createDrawerNavigator, DrawerScreenProps } from '@react-navigation/drawer';
 import HomeScreen from './HomeScreen';
 import RegisterScreen from './RegisterScreen'; // Import if used in navigation
-import { Text } from 'react-native';
 import AboutScreen from './AboutScreen'; // Import the AboutScreen component
 import ProfileScreen from './ProfileScreen'; // Import the ProfileScreen component
-import LogoutScreen from './'; // Import the LogoutScreen component
 import BluetoothScreen from './BluetoothScreen';
+import { Text } from 'react-native';
 
-const Drawer = createDrawerNavigator();
+const Drawer = createDrawerNavigator<DrawerParamList>();
 
-const DrawerNavigator = () => {
+const DrawerNavigator: React.FC = () => {
   return (
     <Drawer.Navigator
       screenOptions={{
@@ -24,14 +22,6 @@ const DrawerNavigator = () => {
         options={{
           drawerLabel: 'Home',
           drawerIcon: () => <Text>🏠</Text>, // Home icon
-        }}
-      />
-      <Drawer.Screen 
-        name="Logout" 
-        component={LogoutScreen} 
-        options={{
-          drawerLabel: 'Logout',
-          drawerIcon: () => <Text>🚪</Text>, // Logout icon
         }}
       />
       <Drawer.Screen 
@@ -50,12 +40,12 @@ const DrawerNavigator = () => {
           drawerIcon: () => <Text>👤</Text>, // Profile icon
         }}
       />
-        <Drawer.Screen 
+      <Drawer.Screen 
         name="Bluetooth" 
         component={BluetoothScreen} 
         options={{
           drawerLabel: 'Bluetooth',
-          drawerIcon: () => <Text>👤</Text>, // Profile icon
+          drawerIcon: () => <Text>🔵</Text>, // Bluetooth icon
         }}
       />
     </Drawer.Navigator>

@@ -1,14 +1,15 @@
-// app/MenuScreen.tsx
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from './types'; // Adjust the import path to your types file
 
 interface MenuScreenProps {
   onLogout: () => void; // Prop to handle logout
 }
 
 const MenuScreen: React.FC<MenuScreenProps> = ({ onLogout }) => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
   const handleLogout = () => {
     // Clear any user authentication state here if needed
