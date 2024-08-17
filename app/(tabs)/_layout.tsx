@@ -1,37 +1,31 @@
-import { Tabs } from 'expo-router';
-import React from 'react';
+// app/_layout.tsx
+import React, { useState } from 'react';
+import { View } from 'react-native';
+import AuthNavigator from './AuthNavigator';
+import DrawerNavigator from './DrawerNavigator';
 
-import { TabBarIcon } from '@/components/navigation/TabBarIcon';
-import { Colors } from '@/constants/Colors';
-import { useColorScheme } from '@/hooks/useColorScheme';
+const Layout = () => {
+  const [isAuthenticated, setIsAuthenticated] = useState(false); // Use state for authentication
 
-export default function TabLayout() {
-  const colorScheme = useColorScheme();
+  const handleLogin = () => {
+    console.log('User logged in');
+    setIsAuthenticated(true); // Update authentication state
+  };
+
+  const handleLogout = () => {
+    console.log('User logged out');
+    setIsAuthenticated(false); // Update authentication state
+  };
 
   return (
-    <Tabs
-      screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-        headerShown: false,
-      }}>
-      <Tabs.Screen
-        name="index"
-        options={{
-          title: 'Home',
-          tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'home' : 'home-outline'} color={color} />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="explore"
-        options={{
-          title: 'Explore',
-          tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'code-slash' : 'code-slash-outline'} color={color} />
-          ),
-        }}
-      />
-    </Tabs>
+    <View style={{ flex: 1 }}>
+      {isAuthenticated ? (
+        <DrawerNavigator onLogout={handleLogout} />
+      ) : (
+        <AuthNavigator onLogin={handleLogin} />
+      )}
+    </View>
   );
-}
+};
+
+export default Layout;
