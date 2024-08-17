@@ -1,11 +1,13 @@
 import React from 'react';
-import { createDrawerNavigator, DrawerScreenProps } from '@react-navigation/drawer';
+import {} from 'react-native'
+import { createDrawerNavigator, DrawerScreenProps, DrawerParamList } from '@react-navigation/drawer';
 import HomeScreen from './HomeScreen';
-import RegisterScreen from './RegisterScreen'; // Import if used in navigation
+//import RegisterScreen from './RegisterScreen'; // Import if used in navigation
 import AboutScreen from './AboutScreen'; // Import the AboutScreen component
 import ProfileScreen from './ProfileScreen'; // Import the ProfileScreen component
 import BluetoothScreen from './BluetoothScreen';
 import { Text } from 'react-native';
+import MenuScreen from './MenuScreen';
 
 const Drawer = createDrawerNavigator<DrawerParamList>();
 
@@ -45,6 +47,14 @@ const DrawerNavigator: React.FC = () => {
         component={BluetoothScreen} 
         options={{
           drawerLabel: 'Bluetooth',
+          drawerIcon: () => <Text>🔵</Text>, // Bluetooth icon
+        }}
+      />
+         <Drawer.Screen 
+        name="Logout" 
+        component={MenuScreen} 
+        options={{
+          drawerLabel: 'Logout',
           drawerIcon: () => <Text>🔵</Text>, // Bluetooth icon
         }}
       />

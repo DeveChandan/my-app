@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { RootStackParamList } from './types'; // Adjust the import path to your types file
+//import { RootStackParamList } from './types'; // Adjust the import path to your types file
 
 interface MenuScreenProps {
   onLogout: () => void; // Prop to handle logout
@@ -14,8 +14,8 @@ const MenuScreen: React.FC<MenuScreenProps> = ({ onLogout }) => {
   const handleLogout = () => {
     // Clear any user authentication state here if needed
     console.log('User logged out');
-    onLogout(); // Call the logout function passed as a prop
     navigation.navigate('Login'); // Navigate to the Login screen
+    onLogout(); // Call the logout function passed as a prop
   };
 
   return (

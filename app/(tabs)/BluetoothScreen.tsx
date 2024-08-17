@@ -1,15 +1,18 @@
-import  { useState } from 'react';
-import { View, Text, Button, StyleSheet, Dimensions } from 'react-native';
+import { router } from "expo-router";
+import { useState } from "react";
+import { View, Text, Button, StyleSheet } from "react-native";
 
 export default function BluetoothSearchScreen() {
-  const [bluetoothAddress, setBluetoothAddress] = useState('235:989:00:5887:45');
+  const [bluetoothAddress, setBluetoothAddress] =
+    useState("235:989:00:5887:45");
 
   const handleSearch = () => {
-    // Handle Bluetooth search logic here
+    alert("Near by do not device fetch");
   };
 
   const handleConnect = () => {
-    // Handle Bluetooth connect logic here
+    alert("Not Connected");
+    router.push("/HomeScreen");
   };
 
   return (
@@ -34,33 +37,33 @@ export default function BluetoothSearchScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#34eb98', // Background color
-    justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: "#34eb98", // Background color
+    justifyContent: "center",
+    alignItems: "center",
   },
   title: {
     fontSize: 20,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 20,
   },
   buttonContainer: {
-    width: '60%',
+    width: "60%",
     marginVertical: 10,
-    backgroundColor: '#5B84F1',
+    backgroundColor: "#5B84F1",
     borderRadius: 10,
-    overflow: 'hidden', // To make button corners rounded
+    overflow: "hidden", // To make button corners rounded
   },
   addressContainer: {
-    backgroundColor: '#ffffff',
+    backgroundColor: "#ffffff",
     padding: 20,
     marginVertical: 20,
     borderRadius: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: '80%',
+    justifyContent: "center",
+    alignItems: "center",
+    width: "80%",
   },
   addressText: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
 });

@@ -5,6 +5,7 @@ import { View, Text, StyleSheet, Button } from 'react-native';
 const ProfileScreen = ({ navigation }) => {
   const handleLogout = () => {
     // Handle logout functionality here
+    alert('Logout Successfully')
     navigation.navigate('Logout');
   };
 
